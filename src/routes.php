@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('admin/dashboard', 'Chrisbjr\Kitchen\AdminController@getDashboard');
+Route::get(Config::get('kitchen::adminRoute') . '/dashboard', 'Chrisbjr\Kitchen\AdminController@getDashboard');
 
 HTML::macro('clever_link', function ($route, $text, $icon = 'icon-home') {
     $active = '';
