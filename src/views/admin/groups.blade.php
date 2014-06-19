@@ -2,17 +2,21 @@
 
 {{-- Page Title --}}
 @section('page_title')
-Dashboard
+Groups
 @stop
 
 {{-- Page subtitle --}}
 @section('page_subtitle')
-statistics and more
+user management
 @stop
 
 @section('breadcrumbs')
 <li>
     <i class="fa fa-home"></i>
     <a href="{{{ url(Config::get('kitchen::adminRoute')) }}}">Dashboard</a>
+    <i class="fa fa-angle-right"></i>
+</li>
+<li>
+    <a href="javascript:;">Groups</a>
 </li>
 @stop

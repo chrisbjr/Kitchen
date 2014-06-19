@@ -34,7 +34,7 @@
           type="text/css') }}}"/>
     <link href="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.css') }}}" rel="stylesheet"
           type="text/css') }}}"/>
-    <link href="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/jqvmap.css') }}}" rel="stylesheet" type="text/css') }}}"/>
+    <link href="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}}" rel="stylesheet" type="text/css') }}}"/>
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN PAGE STYLES -->
     <link href="{{{ asset('packages/chrisbjr/kitchen/assets/admin/pages/css/tasks.css') }}}" rel="stylesheet" type="text/css') }}}"/>
@@ -66,7 +66,7 @@
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="{{ url('admin/dashboard') }}">
+            <a href="{{ url(Config::get('kitchen::adminRoute')) }}">
                 <img src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/img/logo.png') }}}" alt="logo" class="logo-default"/>
             </a>
 
@@ -86,8 +86,8 @@
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <li class="dropdown dropdown-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="" class="img-circle" src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/img/avatar3_small.jpg') }}}"/>
-                        <span class="username">Bob</span>
+                        <img alt="" class="img-circle" src="{{{ Gravatar::src(Confide::user()->email, 29) }}}"/>
+                        <span class="username">{{{ Confide::user()->email }}}</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -102,7 +102,7 @@
                                 <i class="icon-lock"></i> Lock Screen </a>
                         </li>
                         <li>
-                            <a href="login.html">
+                            <a href="{{{ url('user/logout') }}}">
                                 <i class="icon-key"></i> Log Out </a>
                         </li>
                     </ul>
@@ -134,8 +134,8 @@
                     <!-- END SIDEBAR TOGGLER BUTTON -->
                 </li>
 
-                {{ HTML::clever_link('admin/dashboard', 'Dashboard') }}
-                {{ HTML::clever_link('admin/users', 'Manage Users', 'icon-users') }}
+                {{ HTML::metronicMenu(Config::get('kitchen::adminRoute'), 'Dashboard') }}
+                {{ HTML::metronicMenu(null, 'User Management', 'icon-lock', array(array('route' => Config::get('kitchen::adminRoute').'/users', 'text' => 'Users'), array('route' => Config::get('kitchen::adminRoute').'/groups', 'text' => 'Groups'))) }}
 
             </ul>
             <!-- END SIDEBAR MENU -->
@@ -201,26 +201,14 @@
 <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap/js/bootstrap.min.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}}"
-        type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}}"
-        type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}}" type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery.blockui.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery.cokie.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/uniform/jquery.uniform.min.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}}"
-        type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}}" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js') }}}"
-        type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js') }}}"
-        type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/flot/jquery.flot.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/flot/jquery.flot.resize.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/flot/jquery.flot.categories.min.js') }}}" type="text/javascript"></script>
@@ -229,21 +217,25 @@
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js') }}}"
         type="text/javascript"></script>
 <!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.min.js') }}}"
-        type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}}"
-        type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.min.js') }}}" type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/jquery.sparkline.min.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/gritter/js/jquery.gritter.js') }}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js') }}}" type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/scripts/metronic.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/scripts/layout.js') }}}" type="text/javascript"></script>
+<script src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/pages/scripts/table-managed.js') }}}" type="text/javascript"></script>
+@section('javascript')
+@show
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
+        TableManaged.init();
     });
 </script>
 <!-- END JAVASCRIPTS -->

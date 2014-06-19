@@ -11,16 +11,77 @@
 |
 */
 
-Route::get(Config::get('kitchen::adminRoute') . '/dashboard', 'Chrisbjr\Kitchen\KitchenAdminController@getDashboard');
-Route::get(Config::get('kitchen::adminRoute') . '/login', 'Chrisbjr\Kitchen\KitchenAdminController@getLogin');
+Route::get('user/login', 'Chrisbjr\Kitchen\KitchenUserController@getLogin');
+Route::get('user/confirm/{code}', 'Chrisbjr\Kitchen\KitchenUserController@getConfirm');
+Route::post('user/login', 'Chrisbjr\Kitchen\KitchenUserController@postLogin');
+Route::post('user/forgot_password', 'Chrisbjr\Kitchen\KitchenUserController@postForgotPassword');
+Route::get( 'user/reset/{token}', 'Chrisbjr\Kitchen\KitchenUserController@getResetPassword');
+Route::post('user/reset', 'Chrisbjr\Kitchen\KitchenUserController@postResetPassword');
 
-HTML::macro('clever_link', function ($route, $text, $icon = 'icon-home') {
+Route::post('user/register', 'Chrisbjr\Kitchen\KitchenUserController@postRegister');
+
+Route::get('user/logout', 'Chrisbjr\Kitchen\KitchenUserController@getLogout');
+
+Route::get(Config::get('kitchen::adminRoute'), array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getDashboard'));
+Route::get(Config::get('kitchen::adminRoute') . '/users', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getUsers'));
+Route::get(Config::get('kitchen::adminRoute') . '/groups', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getGroups'));
+
+HTML::macro('metronicMenu', function ($route, $text, $icon = 'icon-home', $subMenu = array()) {
     $active = '';
     $selected = '';
-    if (Request::path() == $route) {
-        $active = ' active';
-        $selected = '<span class="selected"></span>';
+    $arrow = '';
+    $mainUrl = 'javascript:;';
+    if ($route != null) {
+        $mainUrl = url($route);
+        if (Request::path() == $route) {
+            $active = 'active';
+            $selected = '<span class="selected"></span>';
+        }
     }
 
-    return '<li class="start' . $active . '"><a href="' . url($route) . '"><i class="' . $icon . '"></i><span class="title">' . $text . '</span>' . $selected . '</a></li>';
+    $subMenuArray = array();
+    if (count($subMenu) > 0) {
+        $arrow = '<span class="arrow"></span>';
+        foreach ($subMenu as $sub) {
+            $subActive = '';
+            if (Request::path() == $sub['route']) {
+                $subActive = 'active';
+                $active .= 'active open';
+                $arrow = '<span class="arrow open"></span>';
+            }
+            $subMenuArray[] = '<li class="' . $subActive . '"><a href="' . url($sub['route']) . '">' . $sub['text'] . '</a>';
+        }
+    }
+
+    $menu = '<li class="' . $active . '"><a href="' . $mainUrl . '"><i class="' . $icon . '"></i><span class="title">' . $text . '</span>' . $selected . $arrow . '</a>';
+
+    if (count($subMenuArray) > 0) {
+        $menu .= '<ul class="sub-menu">';
+        foreach ($subMenuArray as $s) {
+            $menu .= $s;
+        }
+        $menu .= '</ul>';
+    }
+
+    $menu .= '</li>';
+
+    return $menu;
+
+});
+
+Route::get('create_group', function () {
+    // Create the group
+    $group = \Sentry::createGroup(array(
+        'name'        => 'Administrator',
+        'permissions' => array(
+            'user.view'    => 1,
+            'user.create'  => 1,
+            'user.delete'  => 1,
+            'user.update'  => 1,
+            'group.view'   => 1,
+            'group.create' => 1,
+            'group.delete' => 1,
+            'group.update' => 1,
+        ),
+    ));
 });

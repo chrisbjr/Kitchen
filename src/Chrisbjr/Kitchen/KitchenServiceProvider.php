@@ -21,9 +21,12 @@ class KitchenServiceProvider extends ServiceProvider
     {
         $this->package('chrisbjr/kitchen');
 
-        $this->app->register('Cartalyst\Sentry\SentryServiceProvider');
+        $this->app->register('Zizaco\Confide\ConfideServiceProvider');
+        $this->app->register('Zizaco\Entrust\EntrustServiceProvider');
+        $this->app->register('Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider');
 
         include __DIR__ . '/../../routes.php';
+        include __DIR__ . '/../../filters.php';
     }
 
     /**
@@ -43,7 +46,7 @@ class KitchenServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array();
+        return array('Cartalyst\Sentry\SentryServiceProvider');
     }
 
 }

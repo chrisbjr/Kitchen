@@ -10,12 +10,16 @@
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
-        "cartalyst/sentry": "2.1.*"
+        "laravelbook/ardent": "dev-master",
+        "zizaco/confide": "dev-master",
+        "zizaco/entrust": "dev-master",
+        "thomaswelton/laravel-gravatar": "0.0.x"
     },
     "autoload": {
         "classmap": [
             "src/migrations",
-            "src/controllers"
+            "src/controllers",
+            "src/models"
         ],
         "psr-0": {
             "Chrisbjr\\Kitchen\\": "src/"

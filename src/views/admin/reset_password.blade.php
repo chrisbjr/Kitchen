@@ -9,7 +9,7 @@
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
-    <title>Kitchen | Login</title>
+    <title>Kitchen | Reset Password</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
@@ -49,7 +49,7 @@
 <body class="login">
 <!-- BEGIN LOGO -->
 <div class="logo">
-    <a href="index.html">
+    <a href="{{{ url('/') }}}">
         <img src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/img/logo.png') }}}" alt=""/>
     </a>
 </div>
@@ -61,15 +61,15 @@
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form" method="post">
+    <form class="login-form" method="post" action="{{{ url('user/reset') }}}">
         <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
+        <input type="hidden" name="token" value="{{{ $token }}}">
 
-        <h3 class="form-title">Login to your account</h3>
+        <h3 class="form-title">Reset your password</h3>
 
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>
-			<span>
-			Enter any email and password. </span>
+            <span>You need to fill both fields</span>
         </div>
         @if (Session::get('error'))
         <div class="alert alert-danger">
@@ -85,14 +85,6 @@
         @endif
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-            <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.username_e_mail') }}}</label>
-
-            <div class="input-icon">
-                <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.username_e_mail') }}}" name="email" value="{{{ Input::old('email') }}}"/>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.password') }}}</label>
 
             <div class="input-icon">
@@ -100,119 +92,22 @@
                 <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.password') }}}" name="password"/>
             </div>
         </div>
-        <div class="form-actions">
-            <label class="checkbox">
-                <input type="hidden" name="remember" value="0">
-                <input type="checkbox" name="remember" value="1"> {{{ Lang::get('confide::confide.login.remember') }}} </label>
-            <button type="submit" class="btn green pull-right">
-                Login <i class="m-icon-swapright m-icon-white"></i>
-            </button>
-        </div>
-        <div class="forget-password">
-            <h4>Forgot your password ?</h4>
-
-            <p>
-                no worries, click <a href="javascript:;" id="forget-password">
-                    here </a>
-                to reset your password.
-            </p>
-        </div>
-        <div class="create-account">
-            <p>
-                Don't have an account yet ?&nbsp; <a href="javascript:;" id="register-btn">
-                    Create an account </a>
-            </p>
-        </div>
-    </form>
-    <!-- END LOGIN FORM -->
-    <!-- BEGIN FORGOT PASSWORD FORM -->
-    <form class="forget-form" action="{{{ url('user/forgot_password') }}}" method="post">
-        <h3>Forget Password ?</h3>
-
-        <p>
-            Enter your e-mail address below to reset your password.
-        </p>
-
-        <div class="form-group">
-            <div class="input-icon">
-                <i class="fa fa-envelope"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
-            </div>
-        </div>
-        <div class="form-actions">
-            <button type="button" id="back-btn" class="btn">
-                <i class="m-icon-swapleft"></i> Back
-            </button>
-            <button type="submit" class="btn green pull-right">
-                Submit <i class="m-icon-swapright m-icon-white"></i>
-            </button>
-        </div>
-    </form>
-    <!-- END FORGOT PASSWORD FORM -->
-    <!-- BEGIN REGISTRATION FORM -->
-    <form class="register-form" action="{{{ url('user/register') }}}" method="post">
-        <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
-        <h3>Sign Up</h3>
-
-        <p>
-            Enter your account details below:
-        </p>
-
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.username') }}}</label>
-
-            <div class="input-icon">
-                <i class="fa fa-user"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.username') }}}" name="username"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.e_mail') }}}</label>
-
-            <div class="input-icon">
-                <i class="fa fa-envelope"></i>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.e_mail') }}}" name="email"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.password') }}}</label>
-
-            <div class="input-icon">
-                <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="{{{ Lang::get('confide::confide.password') }}}" name="password"/>
-            </div>
-        </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">{{{ Lang::get('confide::confide.password_confirmation') }}}</label>
 
-            <div class="controls">
-                <div class="input-icon">
-                    <i class="fa fa-check"></i>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" name="password_confirmation"/>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>
-                <input type="checkbox" name="tnc"/> I agree to the <a href="#">
-                    Terms of Service </a>
-                and <a href="#">
-                    Privacy Policy </a>
-            </label>
-
-            <div id="register_tnc_error">
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" name="password_confirmation"/>
             </div>
         </div>
         <div class="form-actions">
-            <button id="register-back-btn" type="button" class="btn">
-                <i class="m-icon-swapleft"></i> Back
-            </button>
-            <button type="submit" id="register-submit-btn" class="btn green pull-right">
-                Sign Up <i class="m-icon-swapright m-icon-white"></i>
+            <label class="checkbox">&nbsp;</label>
+            <button type="submit" class="btn green pull-right">
+                {{{ Lang::get('confide::confide.forgot.submit') }}} <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>
     </form>
-    <!-- END REGISTRATION FORM -->
+    <!-- END LOGIN FORM -->
 </div>
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
