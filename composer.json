@@ -9,7 +9,9 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.2.*",
+        "illuminate/support": "4.2.*"
+    },
+    "require-dev": {
         "laravelbook/ardent": "dev-master",
         "zizaco/confide": "dev-master",
         "zizaco/entrust": "dev-master",
