@@ -13,12 +13,20 @@ class KitchenAdminController extends KitchenBaseController
 
     public function getUsers()
     {
-        return \View::make('kitchen::admin/users');
+        $data['users'] = User::get();
+        return \View::make('kitchen::admin/users', $data);
     }
 
-    public function getGroups()
+    public function getUserProfile($user_id)
     {
-        return \View::make('kitchen::admin/groups');
+        $data['user'] = User::find($user_id);
+        //$data['userProfile'] = $data['user']->userProfile;
+        return \View::make('kitchen::admin/user_profile', $data);
+    }
+
+    public function getRoles()
+    {
+        return \View::make('kitchen::admin/roles');
     }
 
 }

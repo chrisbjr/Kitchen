@@ -2,7 +2,7 @@
 
 {{-- Page Title --}}
 @section('page_title')
-Groups
+Roles
 @stop
 
 {{-- Page subtitle --}}
@@ -17,6 +17,6 @@ user management
     <i class="fa fa-angle-right"></i>
 </li>
 <li>
-    <a href="javascript:;">Groups</a>
+    <a href="javascript:;">Roles</a>
 </li>
 @stop

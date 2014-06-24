@@ -24,7 +24,8 @@ Route::get('user/logout', 'Chrisbjr\Kitchen\KitchenUserController@getLogout');
 
 Route::get(Config::get('kitchen::adminRoute'), array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getDashboard'));
 Route::get(Config::get('kitchen::adminRoute') . '/users', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getUsers'));
-Route::get(Config::get('kitchen::adminRoute') . '/groups', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getGroups'));
+Route::get(Config::get('kitchen::adminRoute') . '/roles', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getRoles'));
+Route::get(Config::get('kitchen::adminRoute') . '/users/{id}', array('before' => 'admin', 'uses' => 'Chrisbjr\Kitchen\KitchenAdminController@getUserProfile'));
 
 HTML::macro('metronicMenu', function ($route, $text, $icon = 'icon-home', $subMenu = array()) {
     $active = '';
@@ -44,7 +45,7 @@ HTML::macro('metronicMenu', function ($route, $text, $icon = 'icon-home', $subMe
         $arrow = '<span class="arrow"></span>';
         foreach ($subMenu as $sub) {
             $subActive = '';
-            if (Request::path() == $sub['route']) {
+            if(strpos(Request::path(), $sub['route']) !== false) {
                 $subActive = 'active';
                 $active .= 'active open';
                 $arrow = '<span class="arrow open"></span>';
@@ -69,19 +70,7 @@ HTML::macro('metronicMenu', function ($route, $text, $icon = 'icon-home', $subMe
 
 });
 
-Route::get('create_group', function () {
-    // Create the group
-    $group = \Sentry::createGroup(array(
-        'name'        => 'Administrator',
-        'permissions' => array(
-            'user.view'    => 1,
-            'user.create'  => 1,
-            'user.delete'  => 1,
-            'user.update'  => 1,
-            'group.view'   => 1,
-            'group.create' => 1,
-            'group.delete' => 1,
-            'group.update' => 1,
-        ),
-    ));
+Route::get('logs', function() {
+    $logReader = new \Chrisbjr\Kitchen\Libraries\LogReader();
+    $logReader->getLog('','');
 });

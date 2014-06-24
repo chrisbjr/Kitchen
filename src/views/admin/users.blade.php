@@ -28,17 +28,7 @@ user management
         <div class="portlet box grey-cascade">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Managed Table
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config">
-                    </a>
-                    <a href="javascript:;" class="reload">
-                    </a>
-                    <a href="javascript:;" class="remove">
-                    </a>
+                    <i class="fa fa-user"></i>List of users
                 </div>
             </div>
             <div class="portlet-body">
@@ -52,26 +42,31 @@ user management
                 <table class="table table-striped table-bordered table-hover" id="sample_1">
                     <thead>
                     <tr>
-                        <th class="table-checkbox">
-                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
-                        </th>
-                        <th>
-                            Username
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Points
-                        </th>
-                        <th>
-                            Joined
-                        </th>
-                        <th>
-                            Status
-                        </th>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Joined</th>
                     </tr>
                     </thead>
+                    <tbody>
+                    @foreach ($users as $user)
+                    <tr onclick="javascript:window.location = '{{ $user->getAdminProfileUrl() }}';" style="cursor: pointer">
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            @if($user->confirmed)
+                            <span class="label label-sm label-success">Active</span>
+                            @else
+                            <span class="label label-sm label-warning">Pending</span>
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($user->created_at))->diffForHumans() }}</td>
+
+                    </tr>
+                    @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -80,5 +75,56 @@ user management
 @stop
 
 @section('javascript')
-{{ HTML::script('packages/chrisbjr/kitchen/assets/admin/pages/scripts/table-managed.js') }}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        var table = $('#sample_1');
+
+        // begin first table
+        table.dataTable({
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "pagingType": "bootstrap_full_number",
+            "language": {
+                "lengthMenu": "_MENU_ records",
+                "paginate": {
+                    "previous": "Prev",
+                    "next": "Next",
+                    "last": "Last",
+                    "first": "First"
+                }
+            },
+            "order": [
+                [0, "desc"]
+            ] // set first column as a default sort by asc
+        });
+
+        var tableWrapper = jQuery('#sample_1_wrapper');
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                    $(this).parents('tr').addClass("active");
+                } else {
+                    $(this).attr("checked", false);
+                    $(this).parents('tr').removeClass("active");
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.on('change', 'tbody tr .checkboxes', function () {
+            $(this).parents('tr').toggleClass("active");
+        });
+
+        tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
+    });
+</script>
 @stop

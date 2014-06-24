@@ -46,7 +46,7 @@
     <link href="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/css/themes/default.css') }}}" rel="stylesheet" type="text/css') }}}" id="style_color"/>
     <link href="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/css/custom.css') }}}" rel="stylesheet" type="text/css') }}}"/>
     <!-- END THEME STYLES -->
-    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="shortcut icon" href="{{ url('favicon.ico') }}"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -135,7 +135,7 @@
                 </li>
 
                 {{ HTML::metronicMenu(Config::get('kitchen::adminRoute'), 'Dashboard') }}
-                {{ HTML::metronicMenu(null, 'User Management', 'icon-lock', array(array('route' => Config::get('kitchen::adminRoute').'/users', 'text' => 'Users'), array('route' => Config::get('kitchen::adminRoute').'/groups', 'text' => 'Groups'))) }}
+                {{ HTML::metronicMenu(null, 'User Management', 'icon-lock', array(array('route' => Config::get('kitchen::adminRoute').'/users', 'text' => 'Users'), array('route' => Config::get('kitchen::adminRoute').'/roles', 'text' => 'Roles'))) }}
 
             </ul>
             <!-- END SIDEBAR MENU -->
@@ -227,7 +227,6 @@
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/global/scripts/metronic.js') }}}" type="text/javascript"></script>
 <script src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/layout/scripts/layout.js') }}}" type="text/javascript"></script>
-<script src="{{{ asset('packages/chrisbjr/kitchen/assets/admin/pages/scripts/table-managed.js') }}}" type="text/javascript"></script>
 @section('javascript')
 @show
 <!-- END PAGE LEVEL SCRIPTS -->
